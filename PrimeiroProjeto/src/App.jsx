@@ -1,6 +1,6 @@
 import Book from './Book'
-import { useState } from "react";
-import { bool } from 'prop-types';
+import { useState, useEffect} from "react";
+import "./style.css";
 
 const books = [
 	{
@@ -50,22 +50,36 @@ const books = [
   },
 ]
 
- // Quais livros estão favoritados.
-const [favoritos, setfavoritos] = useState([]);
-
-  function favoritar(event){
-    favorited == true;
-    setfavoritos([...favoritos, id]);
-    console.log(setfavoritos);
-  }
-
 function App() {
+
+  const [favoritos, setfavoritos] = useState([]);
+
+  useEffect(() => {
+    console.log(favoritos)
+ }, [favoritos])
+  
+  function favoritar(id){
+    if(favoritos.includes(id)){
+     const listaFavoritos = favoritos.filter((favoritoId)=> favoritoId !== id)
+     console.log({listaFavoritos});
+     setfavoritos(listaFavoritos)
+    } else{
+      setfavoritos([...favoritos, id]);
+    }
+  }
 
   return (
     books.map((bookItem)=>{
       return(
       <div>
-      <Book id={bookItem.id} title={bookItem.title} authors={bookItem.authors} image={bookItem.image} publishedDate={bookItem.publishedDate} favorited={bool}/>
+      <Book 
+      id={bookItem.id}
+      title={bookItem.title} 
+      authors={bookItem.authors} 
+      image={bookItem.image} 
+      publishedDate={bookItem.publishedDate} 
+      favorited={favoritos.includes(bookItem.id)} 
+      favoritar={favoritar}/>
       </div>
       )
     })

@@ -1,18 +1,28 @@
 import PropTypes from "prop-types";
-import Imagem from './Imagem'
+import Imagem from './Imagem';
+import Favoritar from "./imagens/favoritar.png";
+import Desfavoritar from "./imagens/desfavoritar.png"
 
 
-const Book = ({ id, title, authors, image, publishedDate, favorited}) => {
+
+const Book = ({ id, title, authors, image, publishedDate, favorited, favoritar}) => {
+  const handleClick = () => {
+    favoritar(id);
+ }
+ 
   return (
-    <div>
-      <p>{id}</p>
-      <p>{title}</p>
-      {authors.map((author)=>{
-        return <p>{author}</p>
-      })}
-      <Imagem src={image}/>
-      <p>{publishedDate}</p>
-      <button onClick={favoritar}> favoritar</button>
+    <div id="box">
+      <div id="up">
+        <Imagem src={image}/>
+        <button onClick={handleClick} > {favorited ? <img class="botao" src={Desfavoritar}></img> : <img class="botao" src={Favoritar}></img>} </button>
+      </div>
+      <p id="title">{title}</p>
+      <div id="down">
+        {authors.map((author)=>{
+          return <p id="author">{author}</p>
+        })}
+        <p id="publishedDate">{publishedDate}</p>
+        </div>
     </div>
   )
 };
@@ -24,7 +34,8 @@ Book.propTypes = {
   PropTypes.string.isRequired),
   image : PropTypes.string.isRequired,
   publishedDate : PropTypes.string.isRequired,
-  favorited : PropTypes.bool.isRequired
+  favorited : PropTypes.bool.isRequired,
+  favoritar : PropTypes.func.isRequired
 };
 
 export default Book;
